@@ -1,0 +1,124 @@
+# dotfiles
+.*
+!.editorconfig
+!.gitignore
+!.isort.cfg
+!.mailmap
+
+# hg stuff
+*.orig
+status
+
+# Project specific
+oca.cfg
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+# compiled python files
+*.py[cod]
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+bin/
+build/
+develop-eggs/
+dist/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+# setup.py egg_info
+*.egg-info/
+.installed.cfg
+*.egg
+*.eggs
+
+# various virtualenv
+/bin/
+/build/
+/dist/
+/include/
+/lib/
+/man/
+/share/
+/src/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# generated for windows installer?
+install/win32/*.bat
+install/win32/meta.py
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+# coveragerc settings
+!.coveragerc
+
+# travis-ci.org settings
+!.travis.yml
+
+# coveralls.io settings
+!.coveralls.yml
+
+# pre-commit hooks settings
+!.pre-commit-config.yaml
+
+# Translations
+*.mo
+!*.pot
+
+# Pycharm
+.idea
+
+# Eclipse
+.settings
+
+# sublime text editor
+*.sublime-*
+
+# Visual Studio cache/options directory
+.vs/
+.vscode
+
+# OSX Files
+.DS_Store
+
+# Django stuff:
+*.log
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Rope
+.ropeproject
+
+# Sphinx documentation
+docs/_build/
+_build/
+
+# Backup files
+*~
+*.swp
+
+# OCA rules
+!static/lib/
+
+# odoo filestore
+openerp/filestore
+# maintenance migration scripts
+openerp/addons/base/maintenance
