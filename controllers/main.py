@@ -14,6 +14,7 @@ class StudentController(http.Controller):
         student_dob = datetime.strptime(student_dob_str, '%d/%m/%Y').strftime('%Y-%m-%d')
         # Créer un nouvel enregistrement d'étudiant avec les données du formulaire
         request.env['school.student'].sudo().create({
+            'type_inscription': kwargs.get('type_inscription'),
             'name': kwargs.get('name'),
             'prenom': kwargs.get('prenom'),
             'student_dob': student_dob,

@@ -58,7 +58,10 @@ class Student(models.Model):
     carte_identite = fields.Binary(string='Carte d\'identité')
     justificatif_domicile = fields.Binary(string='Justificatif de domicile')
     certificat_medical = fields.Binary(string='Certificat médical')
-    droit_image = fields.Boolean(string='Droit à l\'image')
+    droit_image = fields.Selection([
+        ('oui', 'Oui'),
+        ('non', 'Non')
+    ], string='Droit à l\'image')
 
     is_major = fields.Boolean(string="Majeur", compute='_compute_is_major')
     age = fields.Integer(string='Age', compute='_compute_age', store=True)
