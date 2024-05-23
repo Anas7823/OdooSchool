@@ -10,7 +10,7 @@
            <div id="wrap" class="oe_structure oe_empty">
                <section class="s_website_form pt16 pb16" data-vcss="001" data-snippet="s_website_form">
                    <div class="container">
-                       <form action="/student/submit" method="POST" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="" data-success-page="">
+                       <form action="/student/submit" method="POST" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="" data-success-mode="redirect" data-success-page="/contactus-thank-you">
                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                            <div class="s_website_form_rows row s_col_no_bgcolor">    
                                 <!-- type d'inscription -->
@@ -79,7 +79,7 @@
                                     <div class="col-sm">
                                         <input type="text" class="form-control datetimepicker-input s_website_form_input" 
                                         name="student_dob" placeholder="Sélectionnez la date de naissance de l'inscrit(e)" 
-                                        id="o5bllz9zafwo" data-fill-with="undefined" required=""/>
+                                        id="student_dob" data-fill-with="undefined" required=""/>
                                     </div>
                                     <div class="input-group-text pe-none"><i class="fa fa-calendar"></i>
                                     </div>
@@ -268,21 +268,16 @@
                                 <!-- Droit à l'image -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <input
-                                            style="width: 200px;"
-                                            class="col-form-label col-sm-auto s_website_form_label" 
-                                            type="checkbox" 
-                                            name="droit_image" 
-                                            required="1"
-                                            placeholder="Entrez le droit à l'image de l'inscrit(e)" 
-                                            id="okam3r2az6b" 
-                                            data-fill-with="undefined"
-                                        />
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                            <span class="s_website_form_label_content">Droit à l'image</span>
+                                            <span class="s_website_form_mark"> *</span>
+                                        </label>
                                         <div class="col-sm">
-                                            <label class="s_website_form_input" for="okam3r2az6b">
-                                                <span class="s_website_form_label_content">En m'inscrivant j'accepte que le club utilise mes images sur toutes leurs plateformes.</span>
-                                                <span class="s_website_form_mark"> *</span>
-                                            </label>
+                                            <select class="form-select s_website_form_input" name="droit_image" required="1" id="o2p95j7t7gma">
+                                                <option value="" selected="selected">Entrez le droit à l'image de l'inscrit(e)</option>
+                                                <option value="oui" >J'accepte que le club utilise mon image sur toutes ses plateformes.</option>
+                                                <option value="non">Je refuse que le club utilise mon image.</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

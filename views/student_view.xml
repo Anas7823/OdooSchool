@@ -69,6 +69,7 @@
             <field name="model">school.student</field>
             <field name="arch" type="xml">
                 <tree string="Students">
+                    <field name="status"/>
                     <field name="name"/>
                     <field name="prenom"/>
                     <field name="age"/>

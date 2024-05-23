@@ -35,6 +35,7 @@ class Student(models.Model):
     ], string='Type d\'inscription', default='new')
     #si reinscription on demande l'ancienne licence
     old_licence = fields.Image(string='Ancienne licence')
+    old_num_licence = fields.Char(string='Numéro de licence')
     name = fields.Char(string='Nom', required=True, track_visibility=True)
     prenom = fields.Char(string='Prénom', required=True, track_visibility=True)
     photo = fields.Binary(string='Image')
@@ -59,8 +60,8 @@ class Student(models.Model):
     justificatif_domicile = fields.Binary(string='Justificatif de domicile')
     certificat_medical = fields.Binary(string='Certificat médical')
     droit_image = fields.Selection([
-        ('oui', 'Oui'),
-        ('non', 'Non')
+        ('oui', 'J\'accepte que le club utilise mon image sur toutes ses plateformes.'),
+        ('non', 'Je refuse que le club utilise mon image.')
     ], string='Droit à l\'image')
 
     is_major = fields.Boolean(string="Majeur", compute='_compute_is_major')
