@@ -40,6 +40,7 @@
                                 <field name="adresse"/>
                                 <field name="ville"/>
                                 <field name="code_postal"/>
+                                <field name="droit_image"/>
                             </group>
                             <group string="Documents">
                                 <field name="type_inscription"/>
