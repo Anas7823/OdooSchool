@@ -13,6 +13,10 @@
                         <button name="button_cancel" string="Refuser" type="object"/>
                         <button name="action_paiement_state" string="Demander le paiement" class="oe_highlight" type="object"/>
                         <button name="action_done_state" string="Terminer" class="oe_highlight" type="object"/>
+                        <!-- <button name="action_generate_stripe_link"
+                            type="object"
+                            string="Générer lien Stripe"
+                            class="btn-primary"/> -->
 
                         <field name="status" widget="statusbar"/>
                     </header>
@@ -44,9 +48,9 @@
                             </group>
                             <group string="Documents">
                                 <field name="type_inscription"/>
-                                <field name="carte_identite"/>
-                                <field name="justificatif_domicile"/>
-                                <field name="certificat_medical"/>
+                                <field name="carte_identite" widget="binary"/>
+                                <field name="justificatif_domicile" widget="binary"/>
+                                <field name="certificat_medical" widget="binary"/> <!-- widget sert à afficher le fichier -->
                             </group>
                             <group string="Informations sur le paiement">
                                 <field name="paiement"/>
@@ -98,7 +102,7 @@
         <!-- window action start -->
         <!-- students action window -->
         <record id="student_menu_action" model="ir.actions.act_window">
-            <field name="name">Students</field>
+            <field name="name">Liste des nouveaux inscrits</field>
             <field name="res_model">school.student</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="student_search_view"/>
@@ -106,7 +110,7 @@
             <field name="domain">[]</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Create The First Student
+                    Oops, il n'y a pas d'inscrits pour le moment.
                 </p>
             </field>
         </record>

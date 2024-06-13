@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="website_partner_menu" model="website.menu">
+        <field name="name">Club manager</field>
         <field name="parent_id" ref="website.main_menu"/>
         <field name="sequence" type="int">90</field>
     </record>
@@ -10,18 +11,26 @@
            <div id="wrap" class="oe_structure oe_empty">
                <section class="s_website_form pt16 pb16" data-vcss="001" data-snippet="s_website_form">
                    <div class="container">
+                        <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block" data-name="Texte" style="background-image: none;">
+                            <div class="s_allow_columns container">
+                                <p>
+                                    <span>Une fois votre inscription et votre paiement validés, vous devrez acheter un pack d'équipement en allant sur la <strong><a href="/boutique">page boutique</a></strong>. Une fois le code entré, vous sélectionnerez le pack qui vous correspond. Vous trouverez plus de détails sur la page des <strong></strong><a href="/packs-licencies"><strong>packs d'équipement pour les inscrits</strong>.</a></span>
+                                </p>
+                            </div>
+                        </section>
+
                        <form action="/student/submit" method="POST" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="" data-success-mode="redirect" data-success-page="/contactus-thank-you">
                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                            <div class="s_website_form_rows row s_col_no_bgcolor">    
                                 <!-- type d'inscription -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="type_inscription">
                                             <span class="s_website_form_label_content">Type d'inscription</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
                                         <div class="col-sm">
-                                            <select class="form-select s_website_form_input" name="type_inscription" required="1" id="o2p95j7t7gma">
+                                            <select class="form-select s_website_form_input" name="type_inscription" required="1" id="type_inscription">
                                                 <option value="new" selected="selected">Nouvelle inscription</option>
                                                 <option value="renouvellement">Renouvellement</option>
                                                 <option value="mutation">Mutation</option>
@@ -33,7 +42,7 @@
                                 <!-- Nom -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="name">
                                             <span class="s_website_form_label_content">Nom</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -44,8 +53,8 @@
                                                 name="name" 
                                                 required="1" 
                                                 placeholder="Entrez le nom de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="name" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -53,7 +62,7 @@
                                 <!-- Prénom -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="prenom">
                                             <span class="s_website_form_label_content">Prénom</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -64,36 +73,115 @@
                                                 name="prenom" 
                                                 required="1" 
                                                 placeholder="Entrez le prénom de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="prenom" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Date de naissance -->
                                 <div data-name="Field" class="s_website_form_date input-group date s_website_form_datepicker_initialized mb-3 col-12 s_website_form_custom s_website_form_required">
-                                    <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                    <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="student_dob">
                                         <span class="s_website_form_label_content">Date de naissance</span>
                                         <span class="s_website_form_mark"> *</span>
                                     </label>
                                     <div class="col-sm">
                                         <input type="text" class="form-control datetimepicker-input s_website_form_input" 
                                         name="student_dob" placeholder="Sélectionnez la date de naissance de l'inscrit(e)" 
-                                        id="student_dob" data-fill-with="undefined" required=""/>
+                                        id="student_dob" data-fill-with="" required=""/>
                                     </div>
                                     <div class="input-group-text pe-none"><i class="fa fa-calendar"></i>
                                     </div>
                                 </div>
 
+                                <field name="is_major" invisible="1"/>
+                                <group class="tuteur_fields">
+                                    <!-- Nom tuteur -->
+                                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="nom_tuteur">
+                                                <span class="s_website_form_label_content">Nom du tuteur</span>
+                                                <span class="s_website_form_mark"> *</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input 
+                                                    class="form-control s_website_form_input" 
+                                                    type="text" 
+                                                    name="nom_tuteur" 
+                                                    placeholder="Entrez le nom du tuteur de l'inscrit(e)" 
+                                                    id="nom_tuteur" 
+                                                    data-fill-with=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Prénom tuteur -->
+                                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="prenom_tuteur">
+                                                <span class="s_website_form_label_content">Prénom du tuteur</span>
+                                                <span class="s_website_form_mark"> *</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input 
+                                                    class="form-control s_website_form_input" 
+                                                    type="text" 
+                                                    name="prenom_tuteur" 
+                                                    placeholder="Entrez le prénom du tuteur de l'inscrit(e)" 
+                                                    id="prenom_tuteur" 
+                                                    data-fill-with=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- num tuteur -->
+                                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="num_tuteur">
+                                                <span class="s_website_form_label_content">Numéro de téléphone du tuteur</span>
+                                                <span class="s_website_form_mark"> *</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input 
+                                                    class="form-control s_website_form_input" 
+                                                    type="number" 
+                                                    name="num_tuteur" 
+                                                    placeholder="Entrez le numéro de téléphone du tuteur de l'inscrit(e)" 
+                                                    id="num_tuteur" 
+                                                    data-fill-with=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Email tuteur -->
+                                    <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="mail_tuteur">
+                                                <span class="s_website_form_label_content">Email du tuteur</span>
+                                                <span class="s_website_form_mark"> *</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input 
+                                                    class="form-control s_website_form_input" 
+                                                    type="email" 
+                                                    name="mail_tuteur" 
+                                                    placeholder="Entrez l'email du tuteur de l'inscrit(e)" 
+                                                    id="mail_tuteur" 
+                                                    data-fill-with=""/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </group>
+
                                 <!-- Genre -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="gender">
                                             <span class="s_website_form_label_content">Genre</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
                                         <div class="col-sm">
-                                            <select class="form-select s_website_form_input" name="gender" required="1" id="o2p95j7t7gma">
+                                            <select class="form-select s_website_form_input" name="gender" required="1" id="gender">
                                                 <option value="homme" selected="selected">Homme</option>
                                                 <option value="femme">Femme</option>
                                             </select>
@@ -104,19 +192,19 @@
                                 <!-- Phone -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="num">
                                             <span class="s_website_form_label_content">Phone</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
                                         <div class="col-sm">
                                             <input 
                                                 class="form-control s_website_form_input" 
-                                                type="text" 
+                                                type="number" 
                                                 name="num" 
                                                 required="1" 
                                                 placeholder="Entrez le numéro de téléphone de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="num" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +212,7 @@
                                 <!-- Email -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="mail">
                                             <span class="s_website_form_label_content">Email</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -135,8 +223,8 @@
                                                 name="mail" 
                                                 required="1" 
                                                 placeholder="Entrez l'email de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="mail" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +232,7 @@
                                 <!-- Adresse -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="adresse">
                                             <span class="s_website_form_label_content">Adresse</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -155,8 +243,8 @@
                                                 name="adresse" 
                                                 required="1" 
                                                 placeholder="Entrez l'adresse de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="adresse" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +252,7 @@
                                 <!-- Ville -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="ville">
                                             <span class="s_website_form_label_content">Ville</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -175,8 +263,8 @@
                                                 name="ville" 
                                                 required="1" 
                                                 placeholder="Entrez la ville de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="ville" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -184,7 +272,7 @@
                                 <!-- Code postal -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="code_postal">
                                             <span class="s_website_form_label_content">Code postal</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -195,8 +283,8 @@
                                                 name="code_postal" 
                                                 required="1" 
                                                 placeholder="Entrez le code postal de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="code_postal" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +292,7 @@
                                 <!-- Carte d'identité -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="carte_identite">
                                             <span class="s_website_form_label_content">Carte d'identité</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -215,10 +303,10 @@
                                                 name="carte_identite" 
                                                 required="1" 
                                                 placeholder="Entrez la carte d'identité de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="carte_identite" 
+                                                data-fill-with=""/>
                                             <div class="s_website_form_field_description small form-text text-muted">
-                                                Afin de prévenir toutes fuites de données personnelles, l'utilisation du service <b><font style="color: rgb(250, 0, 0);"><a href="https://filigrane.beta.gouv.fr/" target="_blank" data-bs-original-title="" title=""><u> filigrane facile</u></a></font></b>est recommandé pour tous les documents envoyés via ce formulaire.
+                                                Afin de prévenir toutes fuites de données personnelles, l'utilisation du service <b><font style="color: rgb(250, 0, 0);"><a href="https://filigrane.beta.gouv.fr/" target="_blank" data-bs-original-title="" title=""><u> filigrane facile</u></a></font></b> est recommandé pour tous les documents envoyés via ce formulaire.
                                                 <br/>
                                             </div>
                                         </div>
@@ -228,7 +316,7 @@
                                 <!-- Justificatif de domicile -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="justificatif_domicile">
                                             <span class="s_website_form_label_content">Justificatif de domicile</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -239,8 +327,8 @@
                                                 name="justificatif_domicile" 
                                                 required="1" 
                                                 placeholder="Entrez le justificatif de domicile de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="justificatif_domicile" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -248,7 +336,7 @@
                                 <!-- Certificat médical -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="certificat_medical">
                                             <span class="s_website_form_label_content">Certificat médical</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
@@ -259,8 +347,8 @@
                                                 name="certificat_medical" 
                                                 required="1" 
                                                 placeholder="Entrez le certificat médical de l'inscrit(e)" 
-                                                id="okam3r2az6b" 
-                                                data-fill-with="undefined"/>
+                                                id="certificat_medical" 
+                                                data-fill-with=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -268,12 +356,12 @@
                                 <!-- Droit à l'image -->
                                 <div data-name="Field" class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required" data-type="char">
                                     <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="okam3r2az6b">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="droit_image">
                                             <span class="s_website_form_label_content">Droit à l'image</span>
                                             <span class="s_website_form_mark"> *</span>
                                         </label>
                                         <div class="col-sm">
-                                            <select class="form-select s_website_form_input" name="droit_image" required="1" id="o2p95j7t7gma">
+                                            <select class="form-select s_website_form_input" name="droit_image" required="1" id="droit_image">
                                                 <option value="" selected="selected">Entrez le droit à l'image de l'inscrit(e)</option>
                                                 <option value="oui" >J'accepte que le club utilise mon image sur toutes ses plateformes.</option>
                                                 <option value="non">Je refuse que le club utilise mon image.</option>
@@ -284,10 +372,54 @@
 
                                 <div class="mb-0 py-2 col-12 s_website_form_submit text-start s_website_form_no_submit_label" data-name="Submit Button">
                                     <div style="width: 200px;" class="s_website_form_label"/>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Valider mon inscription !</button>
                                 </div>
                            </div>
                        </form>
+                       <script type="text/javascript">
+                       //<![CDATA[
+                                console.log('Script loaded')
+                                let date_naissance = document.getElementById('student_dob');
+                                let date = new Date();
+                                let tuteur_fields = document.querySelector('.tuteur_fields');
+
+                                tuteur_fields.style.display = 'none';
+                                
+                                // Si mineur on affiche les champs tuteur
+                                date_naissance.addEventListener('input', function() {
+                                    let dob = date_naissance.value;
+                                    // Formater date naissance en format date (YYYY-MM-DD)
+                                    let [jour, mois, annee] = dob.split("/");
+                                    let date_naissance_formated = new Date(`${annee}-${mois}-${jour}`);
+
+                                    // Calculer l'âge
+                                    let age_reel = date.getFullYear() - date_naissance_formated.getFullYear();
+                                    let mois_diff = date.getMonth() - date_naissance_formated.getMonth();
+                                    let jour_diff = date.getDate() - date_naissance_formated.getDate();
+                                    
+                                    // Ajuster l'âge en fonction des mois et jours
+                                    if ( mois_diff < 0 || (mois_diff === 0 && jour_diff < 0) ) {
+                                        age_reel -= 1;
+                                    }
+                                    
+                                    if (age_reel < 18) {
+                                        tuteur_fields.style.display = 'block';
+                                        // rendre les input required
+                                        document.querySelector('input[name="nom_tuteur"]').required = true;
+                                        document.querySelector('input[name="prenom_tuteur"]').required = true;
+                                        document.querySelector('input[name="num_tuteur"]').required = true;
+                                        document.querySelector('input[name="mail_tuteur"]').required = true;
+                                    } else {
+                                        tuteur_fields.style.display = 'none';
+                                        // rendre les input non required
+                                        document.querySelector('input[name="nom_tuteur"]').required = false;
+                                        document.querySelector('input[name="prenom_tuteur"]').required = false;
+                                        document.querySelector('input[name="num_tuteur"]').required = false;
+                                        document.querySelector('input[name="mail_tuteur"]').required = false;
+                                    }
+                                });
+                        //]]>
+                       </script>
                    </div>
                </section>
            </div>

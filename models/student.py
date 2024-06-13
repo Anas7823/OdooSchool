@@ -1,7 +1,9 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 from odoo import api, fields, models
 
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+# import stripe
+from odoo.exceptions import UserError
 
 class Student(models.Model):
     # the model name (in dot-notation, module namespace)
@@ -33,11 +35,13 @@ class Student(models.Model):
         ('renouvellement', 'Renouvellement'),
         ('mutation', 'Mutation')
     ], string='Type d\'inscription', default='new')
-    #si reinscription on demande l'ancienne licence
+    
+    #si réinscription on demande l'ancienne licence
     old_licence = fields.Image(string='Ancienne licence')
     old_num_licence = fields.Char(string='Numéro de licence')
-    name = fields.Char(string='Nom', required=True, track_visibility=True)
-    prenom = fields.Char(string='Prénom', required=True, track_visibility=True)
+    # fin: si réinscription
+    name = fields.Char(string='Nom', required=True)
+    prenom = fields.Char(string='Prénom', required=True)
     photo = fields.Binary(string='Image')
     student_dob = fields.Date(string="Date de naissance")
     gender = fields.Selection(
@@ -56,9 +60,12 @@ class Student(models.Model):
     adresse = fields.Text(string='Adresse')
     ville = fields.Char(string='Ville')
     code_postal = fields.Char(string='Code Postal')
-    carte_identite = fields.Binary(string='Carte d\'identité')
-    justificatif_domicile = fields.Binary(string='Justificatif de domicile')
-    certificat_medical = fields.Binary(string='Certificat médical')
+    carte_identite = fields.Binary(string='Carte d\'identité', attachment=True)
+    carte_identite_name = fields.Char(string='Nom de la carte d\'identité')
+    justificatif_domicile = fields.Binary(string='Justificatif de domicile', attachment=True)
+    justificatif_domicile_name = fields.Char(string='Nom du justificatif de domicile')
+    certificat_medical = fields.Binary(string='Certificat médical', attachment=True)
+    certificat_medical_name = fields.Char(string='Nom du certificat médical')
     droit_image = fields.Selection([
         ('oui', 'J\'accepte que le club utilise mon image sur toutes ses plateformes.'),
         ('non', 'Je refuse que le club utilise mon image.')
@@ -106,4 +113,41 @@ class Student(models.Model):
                 student.age = (fields.Date.today() - student.student_dob).days / 365.25
             else:
                 student.age = 0
-                
+
+    # On déclare un montant pour la licence
+    # amount = fields.Float(string="Montant")
+
+    # On crée une méthode pour générer le lien de paiement Stripe
+    # @api.multi
+    # def action_generate_stripe_link(self):
+    #     self.ensure_one()
+    #     stripe.api_key = 'sk_test_51O7E1CAJayP49dnd7leDgQCPz9PrkxnQoCPBufUow0NGdkmQYpvPBcePgS9w7D9mO3QNKSr6fSTB9u0HKwY2sYcs00igPdWbqL'
+
+    #     try:
+    #         # Crée un lien de paiement Stripe
+    #         checkout_session = stripe.checkout.Session.create(
+    #             payment_method_types=['card'],
+    #             line_items=[{
+    #                 'price_data': {
+    #                     'currency': 'eur', 
+    #                     'product_data': {
+    #                         'name': 'Licence de football estrappes',
+    #                     },
+    #                     'unit_amount': int(self.amount * 100), # Convertir le montant en centimes
+    #                 },
+    #                 'quantity': 1,
+    #             }],
+    #             mode='payment',
+    #             success_url='http://localhost:8069/contactus-thank-you',
+    #             cancel_url='http://localhost:8069/',
+    #         )
+            
+    #         # Envoyer l'email avec le lien de paiement
+    #         mail_template = self.env.ref('school.email_template_stripe_payment')
+    #         mail_template.sudo().with_context(
+    #             stripe_payment_url=checkout_session.url
+    #         ).send_mail(self.id, force_send=True)
+            
+    #     except Exception as e:
+    #         raise UserError(f"Erreur lors de la création du lien de paiement Stripe : {str(e)}")
+        

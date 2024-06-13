@@ -13,9 +13,10 @@
     'depends': ['base', 'mail', 'sale_management', 'website', 'payment_stripe'],
     'data': [
         'security/ir.model.access.csv',
-        'views/sale_order_view.xml',
+        # 'views/sale_order_view.xml',
         'views/student_view.xml',
         'views/newStudent.xml',
+        # 'data/mail_template_data.xml',
     ],
     'installable': True,
     'application': False,
