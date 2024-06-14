@@ -62,6 +62,7 @@ class Student(models.Model):
     code_postal = fields.Char(string='Code Postal')
     carte_identite = fields.Binary(string='Carte d\'identité', attachment=True)
     carte_identite_name = fields.Char(string='Nom de la carte d\'identité')
+    # carte_identite_ids = fields.Many2many('ir.attachment', string='Carte d\'identité')
     justificatif_domicile = fields.Binary(string='Justificatif de domicile', attachment=True)
     justificatif_domicile_name = fields.Char(string='Nom du justificatif de domicile')
     certificat_medical = fields.Binary(string='Certificat médical', attachment=True)
@@ -71,7 +72,6 @@ class Student(models.Model):
         ('non', 'Je refuse que le club utilise mon image.')
     ], string='Droit à l\'image')
 
-    is_major = fields.Boolean(string="Majeur", compute='_compute_is_major')
     age = fields.Integer(string='Age', compute='_compute_age', store=True)
     
     paiement = fields.Selection([
@@ -115,7 +115,14 @@ class Student(models.Model):
                 student.age = 0
 
     # On déclare un montant pour la licence
-    # amount = fields.Float(string="Montant")
+    # amount = fields.Float(string="Montant", default=270.0)
+    # reste_a_payer = fields.Float(string="Reste à payer", compute='_compute_reste_a_payer', store=True)
+    
+    # Fonction qui automatise le calcul du montant restant à payer
+    # @api.depends('amount', 'paiement_montant')
+    # def _compute_reste_a_payer(self):
+    #     for student in self:
+    #         student.reste_a_payer = student.amount - student.paiement_montant
 
     # On crée une méthode pour générer le lien de paiement Stripe
     # @api.multi

@@ -19,7 +19,7 @@
                             </div>
                         </section>
 
-                       <form action="/student/submit" method="POST" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="" data-success-mode="redirect" data-success-page="/contactus-thank-you">
+                        <form action="/student/submit" method="POST" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="" data-success-mode="redirect" data-success-page="/contactus-thank-you">
                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                            <div class="s_website_form_rows row s_col_no_bgcolor">    
                                 <!-- type d'inscription -->
@@ -304,7 +304,9 @@
                                                 required="1" 
                                                 placeholder="Entrez la carte d'identité de l'inscrit(e)" 
                                                 id="carte_identite" 
-                                                data-fill-with=""/>
+                                                accept="image/*,application/pdf,video/*"
+                                                lass="file"
+                                                />
                                             <div class="s_website_form_field_description small form-text text-muted">
                                                 Afin de prévenir toutes fuites de données personnelles, l'utilisation du service <b><font style="color: rgb(250, 0, 0);"><a href="https://filigrane.beta.gouv.fr/" target="_blank" data-bs-original-title="" title=""><u> filigrane facile</u></a></font></b> est recommandé pour tous les documents envoyés via ce formulaire.
                                                 <br/>
@@ -328,7 +330,7 @@
                                                 required="1" 
                                                 placeholder="Entrez le justificatif de domicile de l'inscrit(e)" 
                                                 id="justificatif_domicile" 
-                                                data-fill-with=""/>
+                                                accept="image/*,application/pdf,video/*"/>
                                         </div>
                                     </div>
                                 </div>
@@ -348,7 +350,7 @@
                                                 required="1" 
                                                 placeholder="Entrez le certificat médical de l'inscrit(e)" 
                                                 id="certificat_medical" 
-                                                data-fill-with=""/>
+                                                accept="image/*,application/pdf,video/*"/>
                                         </div>
                                     </div>
                                 </div>
