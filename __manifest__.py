@@ -16,7 +16,6 @@
         # 'views/sale_order_view.xml',
         'views/student_view.xml',
         'views/newStudent.xml',
-        # 'data/mail_template_data.xml',
     ],
     'installable': True,
     'application': False,

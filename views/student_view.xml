@@ -13,10 +13,10 @@
                         <button name="button_cancel" string="Refuser" type="object"/>
                         <button name="action_paiement_state" string="Demander le paiement" class="oe_highlight" type="object"/>
                         <button name="action_done_state" string="Terminer" class="oe_highlight" type="object"/>
-                        <!-- <button name="action_generate_stripe_link"
+                        <button name="generate_payment_link"
                             type="object"
                             string="Générer lien Stripe"
-                            class="btn-primary"/> -->
+                            class="btn-primary"/>
 
                         <field name="status" widget="statusbar"/>
                     </header>
@@ -33,6 +33,7 @@
                                 <field name="gender"/>
                                 <field name="student_dob"/>
                                 <field name="age"/>
+                                <field name="mail"/>
                             </group>
                             <group string="Informations sur les tuteurs">
                                 <field name="nom_tuteur"/>
@@ -50,13 +51,16 @@
                                 <field name="type_inscription"/>
                                 <field name="carte_identite" widget="binary" filename="carte_identite_name"/>
                                 <field name="carte_identite_name" invisible="1"/>
-                                <field name="justificatif_domicile" widget="binary"/>
-                                <field name="certificat_medical" widget="binary"/>
+                                <field name="justificatif_domicile" widget="binary" filename="justificatif_domicile_name"/>
+                                <field name="justificatif_domicile_name" invisible="1"/>
+                                <field name="certificat_medical" widget="binary" filename="certificat_medical_name"/>
+                                <field name="certificat_medical_name" invisible="1"/>
                             </group>
                             <group string="Informations sur le paiement">
                                 <field name="paiement"/>
                                 <field name="paiement_date"/>
                                 <field name="paiement_montant"/>
+                                <field name="etat_pack_licence"/>
                             </group>
                         </group>
                     </sheet>

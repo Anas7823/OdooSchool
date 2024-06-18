@@ -93,4 +93,5 @@ class StudentController(http.Controller):
         for attachment in attachments.values():
             attachment.write({'res_id': student.id})
 
+        # Rediriger l'utilisateur vers la page de remerciement
         return request.redirect('/contactus-thank-you')
