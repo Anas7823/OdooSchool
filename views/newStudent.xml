@@ -420,6 +420,29 @@
                                         document.querySelector('input[name="mail_tuteur"]').required = false;
                                     }
                                 });
+
+                                <!-- Vérifie la bonne complétion du formulaire avant la redirection vers la page de remerciements  -->
+                                let form = document.querySelector('.s_website_form form');
+                                let btn_submit = document.querySelector('.s_website_form_submit button');
+                                let inputs = document.querySelectorAll('.s_website_form_input');
+
+                                form.addEventListener('submit', function(e) {
+                                    e.preventDefault();
+                                    let is_valid = true;
+                                    inputs.forEach(input => {
+                                        if (input.required && !input.value) {
+                                            is_valid = false;
+                                        }
+                                    });
+
+                                    if (is_valid) {
+                                        form.submit();
+                                        window.location.href = '/contactus-thank-you';
+                                    } else {
+                                        alert('Veuillez remplir tous les champs obligatoires');
+                                    }
+                                });
+
                         //]]>
                        </script>
                    </div>
