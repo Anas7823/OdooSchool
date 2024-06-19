@@ -13,10 +13,10 @@
                         <button name="button_cancel" string="Refuser" type="object"/>
                         <button name="action_paiement_state" string="Demander le paiement" class="oe_highlight" type="object"/>
                         <button name="action_done_state" string="Terminer" class="oe_highlight" type="object"/>
-                        <button name="generate_payment_link"
+                        <!-- <button name="generate_payment_link"
                             type="object"
                             string="Générer lien Stripe"
-                            class="btn-primary"/>
+                            class="btn-primary"/> -->
 
                         <field name="status" widget="statusbar"/>
                     </header>
