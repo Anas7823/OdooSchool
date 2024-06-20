@@ -49,12 +49,9 @@
                             </group>
                             <group string="Documents">
                                 <field name="type_inscription"/>
-                                <field name="carte_identite" widget="binary" filename="carte_identite_name"/>
-                                <field name="carte_identite_name" invisible="1"/>
-                                <field name="justificatif_domicile" widget="binary" filename="justificatif_domicile_name"/>
-                                <field name="justificatif_domicile_name" invisible="1"/>
-                                <field name="certificat_medical" widget="binary" filename="certificat_medical_name"/>
-                                <field name="certificat_medical_name" invisible="1"/>
+                                <field name="carte_identite" widget="binary"/>
+                                <field name="justificatif_domicile" widget="binary"/>
+                                <field name="certificat_medical" widget="binary"/>
                             </group>
                             <group string="Informations sur le paiement">
                                 <field name="paiement"/>

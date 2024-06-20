@@ -19,7 +19,7 @@
                             </div>
                         </section>
 
-                        <form action="/student/submit" method="POST" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-model_name="" data-success-mode="redirect" data-success-page="/contactus-thank-you">
+                        <form action="/student/submit" method="POST" class="o_mark_required" data-mark="*" data-model_name="" data-success-mode="redirect" data-success-page="/contactus-thank-you" enctype="multipart/form-data">
                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                            <div class="s_website_form_rows row s_col_no_bgcolor">    
                                 <!-- type d'inscription -->
@@ -304,8 +304,7 @@
                                                 required="1" 
                                                 placeholder="Entrez la carte d'identité de l'inscrit(e)" 
                                                 id="carte_identite" 
-                                                accept="image/*,application/pdf,video/*"
-                                                lass="file"
+                                                accept="image/*,application/pdf"
                                                 />
                                             <div class="s_website_form_field_description small form-text text-muted">
                                                 Afin de prévenir toutes fuites de données personnelles, l'utilisation du service <b><font style="color: rgb(250, 0, 0);"><a href="https://filigrane.beta.gouv.fr/" target="_blank" data-bs-original-title="" title=""><u> filigrane facile</u></a></font></b> est recommandé pour tous les documents envoyés via ce formulaire.
@@ -330,7 +329,8 @@
                                                 required="1" 
                                                 placeholder="Entrez le justificatif de domicile de l'inscrit(e)" 
                                                 id="justificatif_domicile" 
-                                                accept="image/*,application/pdf,video/*"/>
+                                                accept="image/*,application/pdf"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -350,7 +350,8 @@
                                                 required="1" 
                                                 placeholder="Entrez le certificat médical de l'inscrit(e)" 
                                                 id="certificat_medical" 
-                                                accept="image/*,application/pdf,video/*"/>
+                                                accept="image/*,application/pdf"
+                                                />
                                         </div>
                                     </div>
                                 </div>
@@ -436,8 +437,12 @@
                                     });
 
                                     if (is_valid) {
+                                    // Attendre 3 secondes
+                                    setTimeout(() => {
                                         form.submit();
                                         window.location.href = '/contactus-thank-you';
+                                    }, 3000);
+                                    console.log('Redirecting...');
                                     } else {
                                         alert('Veuillez remplir tous les champs obligatoires');
                                     }

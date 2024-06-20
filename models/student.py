@@ -49,12 +49,13 @@ class Student(models.Model):
     adresse = fields.Text(string='Adresse')
     ville = fields.Char(string='Ville')
     code_postal = fields.Char(string='Code Postal')
-    carte_identite = fields.Binary(string='Carte d\'identité', attachment=True)
-    carte_identite_name = fields.Char(string='Nom de la carte d\'identité')
-    justificatif_domicile = fields.Binary(string='Justificatif de domicile', attachment=True)
-    justificatif_domicile_name = fields.Char(string='Nom du justificatif de domicile')
-    certificat_medical = fields.Binary(string='Certificat médical', attachment=True)
-    certificat_medical_name = fields.Char(string='Nom du certificat médical')
+    attachment_ids = fields.Many2many('ir.attachment', string='Attachments', domain="[('res_model', '=', 'school.student'), ('res_id', '=', id)]")
+    # Champs pour les pièces jointes
+    carte_identite = fields.Many2one('ir.attachment', string='Carte d\'identité')
+    justificatif_domicile = fields.Many2one('ir.attachment', string='Justificatif de domicile')
+    certificat_medical = fields.Many2one('ir.attachment', string='Certificat médical')
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', string='Attachments', domain=[('res_model', '=', 'school.student')])
+    
     droit_image = fields.Selection([
         ('oui', 'J\'accepte que le club utilise mon image sur toutes ses plateformes.'),
         ('non', 'Je refuse que le club utilise mon image.')

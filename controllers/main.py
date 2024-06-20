@@ -13,59 +13,36 @@ class StudentController(http.Controller):
 
     @http.route('/student/submit', type='http', auth='public', methods=['POST'], csrf=False)
     def submit_form(self, **kwargs):
+        # Récupérer les fichiers uploadés
         files = request.httprequest.files
 
-        # Récupérer les fichiers uploadés
-        fichier_carte_identite = files.get('carte_identite')
-        justificatif_domicile = files.get('justificatif_domicile')
-        certificat_medical = files.get('certificat_medical')
-
         # Log details about each file
-        _logger.info('fichier_carte_identite: %s', fichier_carte_identite)
-        _logger.info('justificatif_domicile: %s', justificatif_domicile)
-        _logger.info('certificat_medical: %s', certificat_medical)
+        _logger.info('Uploaded files: %s', files)
 
         attachments = {}
-        
-        # Create attachment for each file if present
-        if fichier_carte_identite:
-            attachments['carte_identite'] = request.env['ir.attachment'].sudo().create({
-                'name': fichier_carte_identite.filename,
-                'type': 'binary',
-                'datas': base64.b64encode(fichier_carte_identite.read()),
-                'res_model': 'school.student',
-                'res_id': 0,
-            })
 
-        if justificatif_domicile:
-            attachments['justificatif_domicile'] = request.env['ir.attachment'].sudo().create({
-                'name': justificatif_domicile.filename,
-                'type': 'binary',
-                'datas': base64.b64encode(justificatif_domicile.read()),
-                'res_model': 'school.student',
-                'res_id': 0,
-            })
+        # Process each file and create attachments
+        for field_name, file_list in files.lists():
+            for index, file_value in enumerate(file_list):
+                if file_value.filename:
+                    attachment_data = {
+                        'name': file_value.filename,
+                        'type': 'binary',
+                        'datas': base64.b64encode(file_value.read()),
+                        'res_model': 'school.student',
+                        'res_id': 0,  # Initially set to 0, will be updated after student creation
+                    }
+                    attachments[field_name] = request.env['ir.attachment'].sudo().create(attachment_data)
 
-        if certificat_medical:
-            attachments['certificat_medical'] = request.env['ir.attachment'].sudo().create({
-                'name': certificat_medical.filename,
-                'type': 'binary',
-                'datas': base64.b64encode(certificat_medical.read()),
-                'res_model': 'school.student',
-                'res_id': 0,
-            })
-
-        # Log information about the attachments
-        _logger.info('Attachment carte_identite: %s', attachments.get('carte_identite'))
-        _logger.info('Attachment justificatif_domicile: %s', attachments.get('justificatif_domicile'))
-        _logger.info('Attachment certificat_medical: %s', attachments.get('certificat_medical'))
+        # Log information about the created attachments
+        _logger.info('Created attachments: %s', attachments)
 
         # Convertir la date de naissance au format YYYY-MM-DD
         student_dob_str = kwargs.get('student_dob')
         student_dob = datetime.strptime(student_dob_str, '%d/%m/%Y').strftime('%Y-%m-%d') if student_dob_str else None
         
         # Créer un nouvel enregistrement d'étudiant avec les données du formulaire
-        student = request.env['school.student'].sudo().create({
+        student_data = {
             'type_inscription': kwargs.get('type_inscription'),
             'name': kwargs.get('name'),
             'prenom': kwargs.get('prenom'),
@@ -80,18 +57,26 @@ class StudentController(http.Controller):
             'adresse': kwargs.get('adresse'),
             'ville': kwargs.get('ville'),
             'code_postal': kwargs.get('code_postal'),
-            'carte_identite': attachments.get('carte_identite').datas if attachments.get('carte_identite') else None,
-            'carte_identite_name': attachments.get('carte_identite').name if attachments.get('carte_identite') else None,
-            'justificatif_domicile': attachments.get('justificatif_domicile').datas if attachments.get('justificatif_domicile') else None,
-            'justificatif_domicile_name': attachments.get('justificatif_domicile').name if attachments.get('justificatif_domicile') else None,
-            'certificat_medical': attachments.get('certificat_medical').datas if attachments.get('certificat_medical') else None,
-            'certificat_medical_name': attachments.get('certificat_medical').name if attachments.get('certificat_medical') else None,
             'droit_image': kwargs.get('droit_image'),
-        })
+        }
 
-        # Mettre à jour les res_id des attachments pour qu'ils pointent vers le nouvel étudiant créé
-        for attachment in attachments.values():
+        # Create the student record first
+        student = request.env['school.student'].sudo().create(student_data)
+
+        # Update res_id of attachments to point to the newly created student
+        for field_name, attachment in attachments.items():
             attachment.write({'res_id': student.id})
 
-        # Rediriger l'utilisateur vers la page de remerciement
-        return request.redirect('/contactus-thank-you')
+            # Map the attachment to the correct field
+            if 'carte_identite' in field_name:
+                student.write({'carte_identite': attachment.id})
+            elif 'justificatif_domicile' in field_name:
+                student.write({'justificatif_domicile': attachment.id})
+            elif 'certificat_medical' in field_name:
+                student.write({'certificat_medical': attachment.id})
+
+        # Log information about the created student
+        _logger.info('Created student: %s', student)
+
+        # Redirect to a success page or return a response
+        return http.request.redirect('/contactus-thank-you')
