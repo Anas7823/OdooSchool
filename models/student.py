@@ -54,7 +54,7 @@ class Student(models.Model):
     carte_identite = fields.Many2one('ir.attachment', string='Carte d\'identité')
     justificatif_domicile = fields.Many2one('ir.attachment', string='Justificatif de domicile')
     certificat_medical = fields.Many2one('ir.attachment', string='Certificat médical')
-    attachment_ids = fields.One2many('ir.attachment', 'res_id', string='Attachments', domain=[('res_model', '=', 'school.student')])
+    attachment_ids = fields.One2many('ir.attachment', 'res_id', string='Documents', domain=[('res_model', '=', 'school.student')])
     
     droit_image = fields.Selection([
         ('oui', 'J\'accepte que le club utilise mon image sur toutes ses plateformes.'),
