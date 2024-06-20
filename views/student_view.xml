@@ -124,7 +124,7 @@
         <!-- menu start -->
         <!-- top level menu: no parent -->
         <menuitem id="school_menu"
-                  name="School"
+                  name="Club Manager"
                   groups="base.group_user"/>
 
         <!-- the following menuitem should appear *after*
@@ -132,7 +132,7 @@
              action 'student_menu_action' -->
         <menuitem id="school_student_menu"
                   parent="school_menu"
-                  name="Students"
+                  name="Liste d'inscriptions"
                   groups="base.group_user"
                   action="student_menu_action"/>
         <!-- menu end -->
