@@ -11,7 +11,7 @@
                     <header>
                         <!-- <button name="delete_record" string="Supprimer" type="object" class="danger"/> -->
                         <button name="button_cancel" string="Refuser" type="object"/>
-                        <button name="action_paiement_state" string="Demander le paiement" class="oe_highlight" type="object"/>
+                        <button name="action_generate_payment_link" string="Demander le paiement" class="oe_highlight" type="object"/>
                         <button name="action_done_state" string="Terminer" class="oe_highlight" type="object"/>
                         <!-- <button name="generate_payment_link"
                             type="object"
