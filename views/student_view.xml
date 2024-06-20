@@ -29,7 +29,7 @@
                             </h3>
                         </div>
                         <group>
-                            <group string="Informations personelles">
+                            <group string="Informations personnelles">
                                 <field name="gender"/>
                                 <field name="student_dob"/>
                                 <field name="age"/>
@@ -49,9 +49,7 @@
                             </group>
                             <group string="Documents">
                                 <field name="type_inscription"/>
-                                <field name="carte_identite" widget="binary"/>
-                                <field name="justificatif_domicile" widget="binary"/>
-                                <field name="certificat_medical" widget="binary"/>
+                                <field name="attachment_ids" widget="many2many_binary"/>
                             </group>
                             <group string="Informations sur le paiement">
                                 <field name="paiement"/>
