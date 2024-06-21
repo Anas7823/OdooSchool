@@ -1,3 +1,6 @@
+from odoo import api, fields, models
+from odoo.exceptions import UserError
+from datetime import datetime
 import sys
 import logging
 
@@ -6,21 +9,11 @@ _logger = logging.getLogger(__name__)
 _logger.info("Python path: %s", sys.path)
 
 try:
-    import stripe
+    import stripe    
+    _logger.error("Stripe a été installer avec succès.")
 except ImportError:
     _logger.error("Stripe module not found. Please make sure it is installed and the environment is activated.")
 
-
-# import sys
-# sys.path.append("../../server/odoo/addons")
-# sys.path.append("../venv/Lib/site-packages/stripe")
-from odoo import api, fields, models
-from odoo.exceptions import UserError
-from datetime import datetime
-# import stripe
-# import logging
-
-_logger = logging.getLogger(__name__)
 
 class Student(models.Model):
     _name = 'school.student'
@@ -127,17 +120,20 @@ class Student(models.Model):
                 # Configurez votre clé API Stripe
                 stripe.api_key = 'sk_test_51O7E1CAJayP49dnd7leDgQCPz9PrkxnQoCPBufUow0NGdkmQYpvPBcePgS9w7D9mO3QNKSr6fSTB9u0HKwY2sYcs00igPdWbqL'
 
+                # Créez un objet Price
+                price = stripe.Price.create(
+                    unit_amount=27000, # Montant en centime (270€)
+                    currency='eur',
+                    product_data={
+                        'name': 'Licence de football',
+                    },
+                )
+                
                 # Créez un lien de paiement
                 payment_link = stripe.PaymentLink.create(
                     line_items=[
                         {
-                            'price_data': {
-                                'currency': 'eur',
-                                'product_data': {
-                                    'name': 'Licence de football',
-                                },
-                                'unit_amount': 27000,  # Montant en cents (270€)
-                            },
+                            'price': price.id,
                             'quantity': 1,
                         },
                     ],

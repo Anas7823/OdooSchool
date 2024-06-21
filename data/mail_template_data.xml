@@ -3,11 +3,11 @@
         <field name="name">Lien de paiement</field>
         <field name="model_id" ref="model_school_student"/>
         <field name="subject">Lien de paiement pour votre licence de Football</field>
-        <field name="email_from">${object.company_id.email}</field>
+        <field name="email_from">${object.company_id.email or ''}</field>
         <field name="email_to">${object.mail}</field>
         <field name="body_html">
             <![CDATA[
-                <p>Bonjour ${object.name},</p>
+                <p>Bonjour ${object.name or 'Cher licencié'},</p>
                 <p>Vous pouvez payer votre licence de Football en cliquant sur le lien suivant:</p>
                 <p><a href="${object.paiement_montant}">Payer maintenant</a></p>
             ]]>
