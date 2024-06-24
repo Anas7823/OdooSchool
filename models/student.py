@@ -10,10 +10,9 @@ _logger.info("Python path: %s", sys.path)
 
 try:
     import stripe    
-    _logger.error("Stripe a été installer avec succès.")
+    _logger.info("Stripe a été installé avec succès.")
 except ImportError:
-    _logger.error("Stripe module not found. Please make sure it is installed and the environment is activated.")
-
+    _logger.error("Le module Stripe est introuvable. Veuillez vous assurer qu'il est installé et que l'environnement est activé.")
 
 class Student(models.Model):
     _name = 'school.student'
@@ -114,40 +113,36 @@ class Student(models.Model):
     stripe_payment_link = fields.Char(string='Lien de paiement Stripe')
     
     def action_generate_payment_link(self):
-        self.write({'status': 'attente'})
-        for record in self:
-            try:
-                # Configurez votre clé API Stripe
-                stripe.api_key = 'sk_test_51O7E1CAJayP49dnd7leDgQCPz9PrkxnQoCPBufUow0NGdkmQYpvPBcePgS9w7D9mO3QNKSr6fSTB9u0HKwY2sYcs00igPdWbqL'
-
-                # Créez un objet Price
-                price = stripe.Price.create(
-                    unit_amount=27000, # Montant en centime (270€)
-                    currency='eur',
-                    product_data={
-                        'name': 'Licence de football',
-                    },
-                )
-                
-                # Créez un lien de paiement
-                payment_link = stripe.PaymentLink.create(
-                    line_items=[
-                        {
-                            'price': price.id,
-                            'quantity': 1,
+        if not self.mail:
+            raise UserError("Le mail de l'inscrit est requis pour envoyer le lien de paiement.")
+        
+        # Configurer Stripe avec la clé secrète
+        stripe.api_key = 'sk_test_51O7E1CAJayP49dnd7leDgQCPz9PrkxnQoCPBufUow0NGdkmQYpvPBcePgS9w7D9mO3QNKSr6fSTB9u0HKwY2sYcs00igPdWbqL'
+        
+        try:
+            # Créer un lien de paiement Stripe
+            session = stripe.checkout.Session.create(
+                payment_method_types=['card'],
+                line_items=[{
+                    'price_data': {
+                        'currency': 'eur',
+                        'product_data': {
+                            'name': 'Licence de football - Estrappes',
                         },
-                    ],
-                )
-
-                # Stockez le lien de paiement dans l'enregistrement de l'étudiant
-                record.stripe_payment_link = payment_link.url
-
-                # Envoyez un email avec le lien de paiement
-                template_id = self.env.ref('school.email_template_payment_link').id
-                template = self.env['mail.template'].browse(template_id)
-                template.send_mail(record.id, force_send=True)
-                
-                _logger.info("Payment link generated and email sent for student: %s", record.name)
-
-            except stripe.error.StripeError as e:
-                _logger.error("Stripe error: %s", e)
+                        'unit_amount': int( 27000),  # Montant en centimes
+                    },
+                    'quantity': 1,
+                }],
+                mode='payment',
+                success_url='http://localhost:8069/contactus-thank-you',
+                cancel_url='http://localhost:8069/inscription',
+            )
+            self.stripe_payment_link = session.url
+            self.write({'status': 'attente'})
+            
+            # Envoyer un email avec le lien de paiement
+            template_id = 20  # ID du modèle de mail
+            template = self.env['mail.template'].browse(template_id)
+            template.send_mail(self.id, force_send=True)
+        except Exception as e:
+            raise UserError(f"Erreur lors de la création du lien de paiement : {str(e)}") if self.env else UserError(f"Erreur lors de la création du lien de paiement : {str(e)}")
