@@ -79,6 +79,8 @@
                     <field name="prenom"/>
                     <field name="age"/>
                     <field name="gender"/>
+                    <field name="ville"/>
+                    <field name="droit_image"/>
                 </tree>
             </field>
         </record>

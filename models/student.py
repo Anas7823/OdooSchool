@@ -25,7 +25,7 @@ class Student(models.Model):
         ('new', 'New'),
         ('attente', 'Attente de paiement'),
         ('done', 'Done'),
-    ], string='Status', default='new')
+    ], string='Statut d\'inscription', default='new')
 
     type_inscription = fields.Selection([
         ('new', 'Nouvelle inscription'),
@@ -116,6 +116,9 @@ class Student(models.Model):
         if not self.mail:
             raise UserError("Le mail de l'inscrit est requis pour envoyer le lien de paiement.")
         
+        _logger.info("Email de l'étudiant: %s", self.mail)
+
+        
         # Configurer Stripe avec la clé secrète
         stripe.api_key = 'sk_test_51O7E1CAJayP49dnd7leDgQCPz9PrkxnQoCPBufUow0NGdkmQYpvPBcePgS9w7D9mO3QNKSr6fSTB9u0HKwY2sYcs00igPdWbqL'
         
@@ -140,9 +143,17 @@ class Student(models.Model):
             self.stripe_payment_link = session.url
             self.write({'status': 'attente'})
             
+            
             # Envoyer un email avec le lien de paiement
             template_id = 20  # ID du modèle de mail
             template = self.env['mail.template'].browse(template_id)
-            template.send_mail(self.id, force_send=True)
+            
+            # Préparer l'email avec l'adresse email dynamique
+            email_values = {
+                'email_to': self.mail,
+            }
+            # template.send_mail(self.id, force_send=True)
+            template.send_mail(self.id, email_values=email_values, force_send=True)
+
         except Exception as e:
             raise UserError(f"Erreur lors de la création du lien de paiement : {str(e)}") if self.env else UserError(f"Erreur lors de la création du lien de paiement : {str(e)}")
