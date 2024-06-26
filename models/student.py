@@ -137,8 +137,8 @@ class Student(models.Model):
                     'quantity': 1,
                 }],
                 mode='payment',
-                success_url='http://localhost:8069/contactus-thank-you',
-                cancel_url='http://localhost:8069/inscription',
+                success_url='http://localhost:8069/thanks-stripe',
+                cancel_url='http://localhost:8069/error-stripe',
             )
             self.stripe_payment_link = session.url
             self.write({'status': 'attente'})
